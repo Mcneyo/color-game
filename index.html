@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Guessing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎨 Color Guessing Game</h1>
+        
+        <!-- Hidden Target Color -->
+        <div class="color-box" data-testid="colorbox">❓</div>
+        
+        <!-- Game Status Message -->
+        <p class="status-message" data-testid="gamestatus">Guess the color!</p>
+        
+        <!-- Color Options -->
+        <div class="options-container">
+            <!-- Buttons will be added dynamically -->
+        </div>
+        
+        <!-- Score Display -->
+        <p class="score">Score: <span data-testid="score">0</span></p>
+        
+        <!-- New Game Button -->
+        <button class="new-game-btn" data-testid="newGameButton">🔄 New Game</button>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
