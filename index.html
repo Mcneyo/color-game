@@ -3,31 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Guessing Game</title>
+    <title>Document</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <h1>🎨 Color Guessing Game</h1>
-        
-        <!-- Hidden Target Color -->
-        <div class="color-box" data-testid="colorbox">❓</div>
-        
-        <!-- Game Status Message -->
-        <p class="status-message" data-testid="gamestatus">Guess the color!</p>
-        
-        <!-- Color Options -->
-        <div class="options-container">
-            <!-- Buttons will be added dynamically -->
+    <div class="color-game">
+      <h1>L@ni <span>Color Game</span></h1>
+        <p data-testid="gameInstructions">click a button to correctly guess the color in the box</p>
+        <div class="game">
+          <div data-testid="colorBox" id="color-box"></div>
+          <p data-testid="score" id="score"></p>
+          <p data-testid="gameStatus" id="status"></p>
+          <div class="button-wraps">
+            <button data-testid="colorOption" class="btn" id=" btn-1"></button>
+            <button data-testid="colorOption" class="btn" id=" btn-2"></button>
+            <button data-testid="colorOption" class="btn" id=" btn-3"></button>
+            <button data-testid="colorOption" class="btn" id=" btn-4"></button>
+            <button data-testid="colorOption" class="btn" id=" btn-5"></button>
+            <button data-testid="colorOption" class="btn" id=" btn-6"></button>
+          </div>
         </div>
-        
-        <!-- Score Display -->
-        <p class="score">Score: <span data-testid="score">0</span></p>
-        
-        <!-- New Game Button -->
-        <button class="new-game-btn" data-testid="newGameButton">🔄 New Game</button>
-    </div>
-    
+        <button data-testid="newGameButton" id="reset-btn">Reset</button>
+        </div>
+      </div>
     <script src="main.js"></script>
 </body>
 </html>
