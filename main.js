@@ -1,76 +1,88 @@
-const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
-let targetColor = "";
+// selecting  DOM elements
+let colorBox = document.getElementById("color-box");
+let scoreDisplay = document.getElementById("score");
+let gameStatus = document.getElementById("status"); 
+let buttons = document.querySelectorAll(".btn");
+let resetButton = document.getElementById("reset-btn");
+
+// Function to generate random color
+function generateRandomRGB() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+// random RGB colors
+let colors = [];
+for(let i = 0; i < 6; i++) {
+    colors.push(generateRandomRGB());
+}
+
 let score = 0;
 
-// Selecting elements using data-testid
-const colorBox = document.querySelector("[data-testid='colorbox']");
-const optionsContainer = document.querySelector(".options-container");
-const statusMessage = document.querySelector("[data-testid='gamestatus']");
-const scoreDisplay = document.querySelector("[data-testid='score']");
-const newGameButton = document.querySelector("[data-testid='newGameButton']");
-
-// Function to start a new game
-function startGame() {
-  targetColor = colors[Math.floor(Math.random() * colors.length)];
-  colorBox.style.backgroundColor = "#ddd"; // Hidden target color
-  colorBox.textContent = "❓"; // Display question mark
-
-  optionsContainer.innerHTML = "";
-  let shuffledColors = [...colors].sort(() => 0.5 - Math.random());
-
-  shuffledColors.forEach((color) => {
-    const button = document.createElement("div");
-    button.classList.add("color-option");
-    button.style.backgroundColor = color;
-    button.setAttribute("data-testid", "coloroption");
-    button.addEventListener("click", () => checkAnswer(color, button));
-    optionsContainer.appendChild(button);
-  });
-
-  statusMessage.textContent = "Guess the color!";
-  statusMessage.style.color = "black";
-}
-
-// Function to check the player's guess
-function checkAnswer(selectedColor, button) {
-  if (selectedColor === targetColor) {
-    score++;
-    scoreDisplay.textContent = score;
-    scoreDisplay.classList.add("score-increase");
-    statusMessage.textContent = "Correct! 🎉";
-    statusMessage.style.color = "green";
-
-    colorBox.style.backgroundColor = targetColor;
-    colorBox.textContent = "";
-
-    button.classList.add("correct-answer");
-
-    setTimeout(() => {
-      scoreDisplay.classList.remove("score-increase");
-      startGame();
-    }, 1000);
-  } else {
-    score--;
-    scoreDisplay.textContent = score;
-    scoreDisplay.classList.add("score-decrease");
-
-    statusMessage.textContent = "Try again! ❌";
-    statusMessage.style.color = "red";
-    button.classList.add("wrong-answer");
-
-    setTimeout(() => {
-      scoreDisplay.classList.remove("score-decrease");
-      button.remove();
-    }, 500);
-  }
-}
-
-// Event listener for New Game button
-newGameButton.addEventListener("click", () => {
-  score = 0;
-  scoreDisplay.textContent = score;
-  startGame();
+// Assigning random colors to buttons
+buttons.forEach((button, index) => {
+    button.style.backgroundColor = colors[index];
 });
 
-// Start the game on page load
+let targetColor;
+
+function startGame(){
+    colors = [];
+    for(let i = 0; i < 6; i++) {
+        colors.push(generateRandomRGB());
+    }
+    
+    // Assignin new colors to buttons
+    buttons.forEach((button, index) => {
+        button.style.backgroundColor = colors[index];
+        button.classList.remove("correct", "wrong");
+    });
+
+    targetColor = colors[Math.floor(Math.random() * colors.length)];
+    colorBox.style.backgroundColor = "gray";
+    gameStatus.textContent = "Guess the correct color!";
+    
+}
+
+function checkColor(event) {
+    let clickedColor = event.target.style.backgroundColor;
+
+    if (colorBox.style.backgroundColor === "gray") {
+        colorBox.style.backgroundColor = targetColor;
+    }
+
+    if (clickedColor === targetColor){
+        gameStatus.textContent = "Correct!";
+        gameStatus.style.color = "green";
+        score++; 
+        scoreDisplay.textContent = `Score: ${score}`;
+        event.target.classList.add("correct");
+        setTimeout(startGame, 1000);
+    } else {
+        gameStatus.textContent = "Wrong! Try again.";
+        gameStatus.style.color = "red";
+        event.target.classList.add("wrong");
+    }
+}
+
+
+buttons.forEach(button => {
+    button.addEventListener("click", checkColor);
+});
+
+// Reset game 
+resetButton.addEventListener("click", () => {
+    score = 0;
+    scoreDisplay.textContent = "Score: 0"; 
+    gameStatus.textContent = "Guess the correct color!";
+    gameStatus.style.color = "white";
+    buttons.forEach(button => {
+        button.classList.remove("correct", "wrong"); // Remove result classes
+    });
+    startGame();
+});
+
+// Start the game when page load
 startGame();
